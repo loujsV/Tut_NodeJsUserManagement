@@ -1,0 +1,4 @@
+// npm i dotenv ejs express express-ejs-layouts express-flash-messages@2.1.0 express-session method-override mongoose
+// npm i --save-dev nodemon
+// https://www.youtube.com/watch?v=PAm_QcN6Ffs
+// "express-flash-message": "^2.1.0"

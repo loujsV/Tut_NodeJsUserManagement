@@ -1,0 +1,130 @@
+<div class="d-flex justify-content-between flex-wrap flex-md nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2"><%= customer.firstName %> <%= customer.lastName %></h1>
+
+    <div class="btn-toolbar mb-2 mb-md 0">
+        <div class="btn-group me-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+        </div>
+    </div>
+</div>
+
+<div id="div-message">
+    <% messages.forEach(element => { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert" >
+            <%= element  %>
+            <button type="button" class="btn-close" data-bs-dismiss = "alert" aria-label="Close"></button>
+        </div>
+    <% }) %>
+</div>
+
+<div class="col py-3">
+    <div class="row">
+        <div class="col">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+                    <li class="breadcrumb-item active"><%= customer.firstName %></li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="col text-end fw-lighter">
+            <b>Last updated: <%= new Date(customer.updatedAt).toLocaleString('en-US') %></b><br>
+            <b>UserId: <%= customer._id %></b>
+        </div>
+    </div>
+</div>
+
+<ul class="list-group">
+
+    <li class="list-group-item">
+        <div class="row">
+            <div class="col" style="max-width: 140px;"><b>Name:</b></div>
+            <div class="col"><%= customer.firstName %> <%= customer.lastName %></div>
+        </div>
+    </li>
+
+    <li class="list-group-item">
+        <div class="row">
+            <div class="col" style="max-width: 140px;"><b>Tel:</b></div>
+            <div class="col"><%= customer.tel %></div>
+        </div>
+    </li>
+
+    <li class="list-group-item">
+        <div class="row">
+            <div class="col" style="max-width: 140px;"><b>Email:</b></div>
+            <div class="col"><%= customer.email %></div>
+        </div>
+    </li>
+
+    <li class="list-group-item">
+        <div class="row">
+            <div class="col" style="max-width: 140px;"><b>Detail:</b></div>
+            <div class="col"><%= customer.details %></div>
+        </div>
+    </li>
+
+    <li class="list-group-item">
+        <div class="row">
+            <div class="col" style="max-width: 140px;"><b>Created:</b></div>
+            <div class="col"><%= new Date(customer.createdAt).toUTCString() %></div>
+        </div>
+    </li>
+
+    <li class="list-group-item">
+        <div class="row">
+            <div class="col" style="max-width: 140px;"><b>Modified:</b></div>
+            <div class="col"><%= new Date(customer.updatedAt).toUTCString() %></div>
+        </div>
+    </li>
+
+</ul>
+
+
+
+
+<script>
+
+    const socket = io('http://172.24.98.71:3000');
+    
+    socket.on('refreshEmployees', (data) => {
+        // Emit a 'refreshEmployees' event to notify the dashboard
+        //window.location.reload();
+        //displayMessage("Updated");
+    
+        // const tableBody = document.getElementById('tableBody');
+        // tableBody.classList.add('disable');
+    
+        const messageDiv = document.getElementById('div-message');
+    
+        const containerDiv = document.createElement('div');
+        containerDiv.textContent = 'You need to reload';
+        containerDiv.classList.add('alert', 'alert-danger', 'alert-dismissible', 'fade', 'show');
+        containerDiv.role = 'alert';
+    
+        const closeButton = document.createElement('button');
+        closeButton.type = 'button';
+        closeButton.classList.add('btn-close');
+        // closeButton.setAttribute('data-bs-dismiss', 'alert');
+        // closeButton.setAttribute('aria-label', 'Close');
+        closeButton.addEventListener('click', refreshPage);
+    
+        containerDiv.appendChild(closeButton);
+        
+        messageDiv.appendChild(containerDiv);
+    
+        function refreshPage() {
+        // Reload the current page
+        window.location.reload();
+        }
+    });
+    </script> 
+    <script>
+        function displayMessage(message) {
+            const div = document.createElement("div");
+            div.textContent = message;
+            document.getElementById("message-container").append(div);
+        }
+    </script>
